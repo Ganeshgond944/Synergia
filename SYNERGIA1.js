@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON bodies
+
 app.use(express.json());
 
-// In-memory storage for bookings
+
 let bookings = [
   {
     id: 1,
@@ -25,10 +25,9 @@ let bookings = [
   }
 ];
 
-// Counter for generating unique IDs
 let nextId = 3;
 
-// 1. GET /api/bookings - Get all event bookings
+// 1. GET /api/bookings 
 app.get('/api/bookings', (req, res) => {
   res.status(200).json({
     success: true,
@@ -37,11 +36,11 @@ app.get('/api/bookings', (req, res) => {
   });
 });
 
-// 2. POST /api/bookings - Create a new booking
+// 2. POST /api/bookings 
 app.post('/api/bookings', (req, res) => {
   const { participantName, email, phone } = req.body;
 
-  // Validation
+
   if (!participantName || !email || !phone) {
     return res.status(400).json({
       success: false,
@@ -49,7 +48,7 @@ app.post('/api/bookings', (req, res) => {
     });
   }
 
-  // Create new booking
+
   const newBooking = {
     id: nextId++,
     participantName,
@@ -68,7 +67,7 @@ app.post('/api/bookings', (req, res) => {
   });
 });
 
-// 3. GET /api/bookings/:id - Get booking by ID
+// 3. GET /api/bookings/id
 app.get('/api/bookings/:id', (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -87,7 +86,7 @@ app.get('/api/bookings/:id', (req, res) => {
   });
 });
 
-// 4. PUT /api/bookings/:id - Update participant details
+// 4. PUT /api/bookings/:id
 app.put('/api/bookings/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const { participantName, email, phone } = req.body;
@@ -101,7 +100,6 @@ app.put('/api/bookings/:id', (req, res) => {
     });
   }
 
-  // Update only provided fields
   if (participantName) bookings[bookingIndex].participantName = participantName;
   if (email) bookings[bookingIndex].email = email;
   if (phone) bookings[bookingIndex].phone = phone;
@@ -113,7 +111,7 @@ app.put('/api/bookings/:id', (req, res) => {
   });
 });
 
-// 5. DELETE /api/bookings/:id - Cancel a booking
+// 5. DELETE /api/bookings/:id 
 app.delete('/api/bookings/:id', (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -135,7 +133,6 @@ app.delete('/api/bookings/:id', (req, res) => {
   });
 });
 
-// Root endpoint
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to Synergia Event Booking API',
